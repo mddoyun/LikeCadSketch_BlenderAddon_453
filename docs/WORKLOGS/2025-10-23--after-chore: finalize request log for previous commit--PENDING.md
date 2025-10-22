@@ -1,0 +1,8 @@
+# 작업 로그 요약 (PENDING)
+
+When: 2025-10-23
+Scope: docs, prompts, scripts, hooks
+Changes: MASTERPROMPT 추가; GUIDE에 커밋/푸시·워크로그 절 보강; REQUESTS 규칙 보정; WORKLOGS 운영 추가; pre-commit(ensure_pending) 도입; post-commit 스크립트 확장; 커밋메시지 훅 한글 권장
+Problem: 커밋 제목/요청/작업로그 간 추적성 강화와 사전 절차(워크로그 PENDING 갱신) 필요
+Solution: 마스터 프롬프트로 재사용 기준 확립, 훅·스크립트로 PENDING 단일화와 자동 동기화 구현
+Notes: 푸시는 지시 시 진행; 커밋 제목은 한글로 간결히 작성

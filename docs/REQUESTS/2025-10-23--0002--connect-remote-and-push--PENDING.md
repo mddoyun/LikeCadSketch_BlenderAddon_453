@@ -1,0 +1,23 @@
+# 요청: 마스터 프롬프트 추가 및 지침/요청·워크로그 운영 보강 (PENDING)
+
+제목: MASTERPROMPT 구축, 커밋 전 워크로그 갱신/한글 커밋/파일명 동기화 반영
+
+배경/목표
+- 다른 프로젝트에도 재사용 가능한 초기 세팅 프롬프트가 필요
+- 커밋 전 절차(Worklog PENDING 요약 업데이트)와 한글 커밋 제목 원칙을 문서/훅/스크립트에 반영
+
+요구사항(요약)
+- `prompts/MASTERPROMPT.md` 작성: 도메인 중립, 초기 세팅/운영 원칙/승인 절차 포함
+- `docs/GUIDE.md` 보강: 커밋 전 Worklog PENDING 업데이트, 제목 한글 원칙, 운영 흐름 명시
+- 훅/스크립트: pre-commit(ensure_pending), post-commit(update_worklog, update_requests) 연계
+- 커밋 제목 = `docs/WORKLOG.md`의 제목 = REQUESTS/WORKLOGS 최종 파일명(한글 허용)
+- 커밋/푸시는 지시 시에만 수행
+
+확인/질문 포인트
+- PENDING 파일 내용 갱신 체크리스트 포맷(When/Scope/Changes/Problem/Solution/Notes) 유지 여부
+- CODEMAP에 툴링/스크립트 섹션 항목 범위 정의
+
+후속 작업
+- CODEMAP에 스크립트/훅 요약 추가(완료)
+- Worklog PENDING에 이번 변경 요약 작성(커밋 전 완료)
+- 커밋 제목 제안 및 실행(한글)

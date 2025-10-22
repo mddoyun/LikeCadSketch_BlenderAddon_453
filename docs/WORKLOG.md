@@ -31,3 +31,18 @@
 - Solution: format example to avoid matching; set correct entry
 - Commit: 2b8cd49
 
+## [0003] 2025-10-23 — docs: add requests logging workflow and initial session summary
+- Scope: docs, scripts
+- Changes: add REQUESTS folder, pending file; post-commit rename hook; guide updates
+- Problem: need to track user requests and map them to commits
+- Solution: PENDING request logs auto-annotated and renamed with commit info
+- Notes: create new PENDING file for new/changed requests
+- Commit: 68e7c13
+
+## [0004] 2025-10-23 — chore: finalize request log for previous commit
+- Scope: docs
+- Changes: rename PENDING requests file with commit hash/title via hook
+- Problem: hook lacked execute permission during last commit
+- Solution: set executable and re-run rename; add renamed file
+- Commit: b79009e
+

@@ -15,5 +15,9 @@ if [ "$len" -gt 100 ]; then
   echo "[commit-msg] 커밋 제목이 너무 깁니다: ${len}자 (권장 ≤72, 제한 ≤100)" >&2
 fi
 
-exit 0
+# 한글 권장: 제목에 한글이 포함되지 않으면 안내(차단하지는 않음)
+if ! printf '%s' "$subject" | grep -q "[가-힣]"; then
+  echo "[commit-msg] 안내: 커밋 제목은 한글로 간결히 적는 것을 권장합니다." >&2
+fi
 
+exit 0

@@ -24,12 +24,17 @@ def get_last_commit() -> dict:
     }
 
 
-def slugify(text: str, maxlen: int = 64) -> str:
-    text = text.strip().lower()
-    text = re.sub(r"[^a-z0-9\s-]", "", text)
-    text = re.sub(r"\s+", "-", text)
-    text = re.sub(r"-+", "-", text)
-    return text[:maxlen].strip("-") or "commit"
+def sanitize_filename(text: str, maxlen: int = 128) -> str:
+    # Keep unicode letters/digits/space/_/-; replace path separators
+    text = text.strip()
+    text = text.replace("/", "／").replace("\\", "＼")
+    # Collapse whitespace
+    text = re.sub(r"\s+", " ", text)
+    # Trim length but preserve whole text as much as possible
+    if len(text) > maxlen:
+        text = text[:maxlen].rstrip()
+    # Fallback
+    return text or "커밋"
 
 
 def find_pending_files() -> list[str]:
@@ -64,9 +69,7 @@ def annotate_file(path: str, info: dict) -> None:
 def rename_pending(path: str, info: dict) -> str:
     dirn, base = os.path.split(path)
     name = base[:-len("--PENDING.md")]  # strip suffix
-    short = info["hash"][:7]
-    slug = slugify(info["subject"]) or "commit"
-    new_base = f"{name}--{short}--{slug}.md"
+    new_base = f"{sanitize_filename(info['subject'])}.md"
     new_path = os.path.join(dirn, new_base)
     # Avoid overwrite
     if os.path.exists(new_path):
@@ -93,4 +96,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
