@@ -27,3 +27,10 @@
 - 애드온 스켈레톤 생성 및 CODEMAP 반영
 - 기능 단위 작업 분할 제안서 초안 마련(토큰/범위 최적화)
 
+
+---
+Commit: 68e7c13
+Title: docs: add requests logging workflow and initial session summary
+Date: 2025-10-23T08:03:59+09:00
+---
+
