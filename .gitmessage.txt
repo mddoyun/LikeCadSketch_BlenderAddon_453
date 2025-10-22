@@ -1,0 +1,11 @@
+# 첫 줄: 커밋 제목(Subject) — 72자 이내, 변경 이유/범위가 드러나도록
+
+
+# 아래는 권장 본문 템플릿 (필요 항목만 채우세요)
+# When: YYYY-MM-DD
+# Scope: 
+# Changes: 
+# Problem: 
+# Solution: 
+# Notes: 
+

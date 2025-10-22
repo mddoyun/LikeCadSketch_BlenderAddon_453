@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+msg_file="$1"
+subject="$(head -n1 "$msg_file" | tr -d '\r')"
+
+# 기본 검증: 제목이 비어있지 않고 100자 이하(권장 72자)
+if [ -z "$subject" ]; then
+  echo "[commit-msg] 커밋 제목(첫 줄)이 비어 있습니다." >&2
+  exit 1
+fi
+
+len=${#subject}
+if [ "$len" -gt 100 ]; then
+  echo "[commit-msg] 커밋 제목이 너무 깁니다: ${len}자 (권장 ≤72, 제한 ≤100)" >&2
+fi
+
+exit 0
+

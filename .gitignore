@@ -1,0 +1,22 @@
+# Python / build
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
+
+# Blender temp / exports (선택적으로 조정)
+*.blend1
+*.blend2
+*.backup
+*.autosave
+export/
+
+# Logs
+*.log
+
