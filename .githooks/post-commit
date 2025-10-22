@@ -3,4 +3,4 @@ set -euo pipefail
 
 repo_root="$(git rev-parse --show-toplevel)"
 "${repo_root}/scripts/update_worklog.py" || true
-
+"${repo_root}/scripts/update_requests.py" || true

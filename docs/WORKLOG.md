@@ -24,3 +24,10 @@
 - Solution: add docs + post-commit worklog auto-sync
 - Notes: titles between commit and worklog remain identical
 - Commit: a2301db
+## [0002] 2025-10-23 — chore: fix initial worklog and example formatting
+- Scope: docs
+- Changes: wrap example as code; correct first entry
+- Problem: example heading inflated sequence and wrong date literal
+- Solution: format example to avoid matching; set correct entry
+- Commit: 2b8cd49
+

@@ -1,0 +1,10 @@
+# REQUESTS 로그 관리
+
+- 위치: `docs/REQUESTS/`
+- 진행 중 파일: `YYYY-MM-DD--NNNN--<short-title>--PENDING.md`
+- 커밋 후 자동 이름 변경: `YYYY-MM-DD--NNNN--<short-title>--<hash7>--<subject-slug>.md`
+- 파일 내용: 요청/질문 요약, 변경 이력, 합의점, 후속 작업 등
+- 요청이 변경될 때: 같은 PENDING 파일을 업데이트(변경 요약 추가). 커밋 후 파일명이 커밋 정보로 갱신됩니다.
+
+이 폴더의 파일명과 `docs/WORKLOG.md`의 항목(제목=커밋 제목)으로 요청→커밋→작업로그를 상호 참조할 수 있습니다.
+
