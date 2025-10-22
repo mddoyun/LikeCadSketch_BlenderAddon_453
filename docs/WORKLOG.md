@@ -7,6 +7,7 @@
 - 본문: Scope/Changes/Problem/Solution/Notes/Commit
 
 예시
+```
 ## [0001] 2025-01-01 — feat: add base operator
 - Scope: operators/base.py
 - Changes: 신규 오퍼레이터 추가 및 등록
@@ -14,6 +15,12 @@
 - Solution: register_class 호출 순서 조정
 - Notes: 추후 단축키 매핑 필요
 - Commit: abcdef1
+```
 
-아직 기록 없음. 첫 커밋 이후 자동으로 누적됩니다.
-
+## [0001] 2025-10-23 — chore: bootstrap docs and git hooks
+- Scope: docs, tooling
+- Changes: add GUIDE, CODEMAP, WORKLOG; git hooks; template
+- Problem: need sustainable process and traceability from day 1
+- Solution: add docs + post-commit worklog auto-sync
+- Notes: titles between commit and worklog remain identical
+- Commit: a2301db
