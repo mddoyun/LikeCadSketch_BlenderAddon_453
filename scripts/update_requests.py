@@ -7,6 +7,7 @@ from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REQ_DIR = os.path.join(ROOT, "docs", "REQUESTS")
+WORKLOG = os.path.join(ROOT, "docs", "WORKLOG.md")
 
 
 def run(cmd: list[str]) -> str:
@@ -50,6 +51,21 @@ def find_pending_files() -> list[str]:
     return result
 
 
+def find_seq_and_date_from_worklog(title: str) -> tuple[int | None, str | None]:
+    try:
+        with open(WORKLOG, "r", encoding="utf-8") as f:
+            text = f.read()
+    except FileNotFoundError:
+        return (None, None)
+    pat = re.compile(r"^## \[(\d{4,})\] (\d{4}-\d{2}-\d{2}) — (.+)$", re.M)
+    matches = pat.findall(text)
+    seq_date_title = [(int(s), d, t.strip()) for (s, d, t) in matches]
+    for s, d, t in reversed(seq_date_title):
+        if t == title.strip():
+            return (s, d)
+    return (None, None)
+
+
 def annotate_file(path: str, info: dict) -> None:
     try:
         with open(path, "r", encoding="utf-8") as f:
@@ -68,13 +84,18 @@ def annotate_file(path: str, info: dict) -> None:
 
 def rename_pending(path: str, info: dict) -> str:
     dirn, base = os.path.split(path)
-    name = base[:-len("--PENDING.md")]  # strip suffix
-    new_base = f"{sanitize_filename(info['subject'])}.md"
+    _ = base[:-len("--PENDING.md")]  # strip suffix
+    title = info["subject"]
+    seq, date = find_seq_and_date_from_worklog(title)
+    if seq is not None and date is not None:
+        new_base = f"[{seq:04d}] {date} — {sanitize_filename(title)}.md"
+    else:
+        new_base = f"{sanitize_filename(title)}.md"
     new_path = os.path.join(dirn, new_base)
     # Avoid overwrite
     if os.path.exists(new_path):
         ts = datetime.now().strftime("%H%M%S")
-        new_base = f"{name}--{short}--{slug}--{ts}.md"
+        new_base = f"{new_base[:-3]}--{ts}.md"
         new_path = os.path.join(dirn, new_base)
     os.rename(path, new_path)
     return new_path

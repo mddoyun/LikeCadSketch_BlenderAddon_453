@@ -60,3 +60,11 @@
 - Problem: 커밋 전 WORKLOG 초안이 반영되지 않아 훅 이후 중복/불일치 가능성
 - Solution: 동일 날짜/제목 블록의 Commit 라인만 갱신하도록 개선하고 사전 초안 작성 원칙 명시
 - Notes: 푸시는 보류
+- Commit: 422487c
+
+## [0007] 2025-10-23 — WORKLOG 사후 수정 금지 및 REQUESTS 파일명 순번/날짜 연계
+- Scope: scripts, docs, prompts
+- Changes: post-commit이 WORKLOG.md를 수정하지 않도록 조정; REQUESTS 파일명에 WORKLOG의 [순번]/날짜/제목 반영; MASTERPROMPT 업데이트
+- Problem: 커밋 후 WORKLOG.md가 계속 수정 상태로 남아 혼선; 요청 파일명과 WORKLOG 간 비교 정보 부족
+- Solution: 커밋 전 WORKLOG 완결, post-commit은 파일명 동기화만 수행하도록 스크립트/지침 보강
+- Notes: 푸시는 보류
