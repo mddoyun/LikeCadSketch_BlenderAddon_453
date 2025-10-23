@@ -46,3 +46,17 @@
 - Solution: set executable and re-run rename; add renamed file
 - Commit: b79009e
 
+## [0005] 2025-10-23 — 마스터 프롬프트 추가 및 지침/요청·워크로그 운영 보강
+- Scope: docs, prompts, scripts, hooks
+- Changes: MASTERPROMPT 추가; GUIDE 보강; REQUESTS 규칙 정비; WORKLOGS 운영 추가; 훅/스크립트 업데이트
+- Problem: 재사용 가능한 초기세팅 프롬프트 필요 및 추적성/절차 일관성 부족
+- Solution: MASTERPROMPT 도입, PENDING 단일화/자동화, 한글 커밋/파일명 동기화
+- Notes: 푸시는 지시 시 진행
+- Commit: 0792bd5
+
+## [0006] 2025-10-23 — 워크로그 사전 초안 규칙 추가 및 중복 방지 보강
+- Scope: docs, scripts
+- Changes: WORKLOG 사전 초안 규칙을 MASTERPROMPT에 추가하고, WORKLOG.md 중복 기록 방지를 위해 post-commit 로직 보강
+- Problem: 커밋 전 WORKLOG 초안이 반영되지 않아 훅 이후 중복/불일치 가능성
+- Solution: 동일 날짜/제목 블록의 Commit 라인만 갱신하도록 개선하고 사전 초안 작성 원칙 명시
+- Notes: 푸시는 보류

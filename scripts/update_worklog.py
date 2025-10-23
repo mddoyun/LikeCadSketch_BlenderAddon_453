@@ -48,6 +48,24 @@ def already_logged(text: str, commit_hash: str) -> bool:
     return commit_hash[:7] in text
 
 
+def find_entry_range(lines: list[str], date: str, title: str) -> tuple[int, int] | None:
+    # Returns (start_idx, end_idx_exclusive) for the matching section by date and title
+    header_re = re.compile(r"^## \[(\d{4,})\] (\d{4}-\d{2}-\d{2}) — (.+)$")
+    start = None
+    for i, line in enumerate(lines):
+        m = header_re.match(line.rstrip("\n"))
+        if m and m.group(2) == date and m.group(3).strip() == title.strip():
+            start = i
+            break
+    if start is None:
+        return None
+    # find next header or EOF
+    for j in range(start + 1, len(lines)):
+        if header_re.match(lines[j].rstrip("\n")):
+            return (start, j)
+    return (start, len(lines))
+
+
 def append_worklog(entry: str) -> None:
     with open(WORKLOG, "a", encoding="utf-8") as f:
         f.write(entry)
@@ -95,22 +113,46 @@ def main() -> int:
     seq = next_sequence(current)
     title = c["subject"].strip()
     date = fields["When"]
-    # Build entry
-    entry = []
-    entry.append(f"## [{seq:04d}] {date} — {title}\n")
-    if fields["Scope"]:
-        entry.append(f"- Scope: {fields['Scope']}\n")
-    if fields["Changes"]:
-        entry.append(f"- Changes: {fields['Changes']}\n")
-    if fields["Problem"]:
-        entry.append(f"- Problem: {fields['Problem']}\n")
-    if fields["Solution"]:
-        entry.append(f"- Solution: {fields['Solution']}\n")
-    if fields["Notes"]:
-        entry.append(f"- Notes: {fields['Notes']}\n")
-    entry.append(f"- Commit: {c['hash'][:7]}\n\n")
-
-    append_worklog("".join(entry))
+    # If a matching entry (same date+title) already exists, update Commit line in-place
+    lines = current.splitlines(True)
+    rng = find_entry_range(lines, date, title)
+    if rng:
+        s, e = rng
+        block = lines[s:e]
+        commit_line_idx = None
+        for idx in range(len(block)):
+            if block[idx].lstrip().startswith("- Commit:"):
+                commit_line_idx = idx
+                break
+        new_commit_line = f"- Commit: {c['hash'][:7]}\n"
+        if commit_line_idx is not None:
+            block[commit_line_idx] = new_commit_line
+        else:
+            # Append commit line before trailing blank lines
+            insert_at = len(block)
+            while insert_at > 0 and block[insert_at - 1].strip() == "":
+                insert_at -= 1
+            block.insert(insert_at, new_commit_line)
+        # Write back
+        lines[s:e] = block
+        with open(WORKLOG, "w", encoding="utf-8") as f:
+            f.write("".join(lines))
+    else:
+        # Build and append a fresh entry
+        entry = []
+        entry.append(f"## [{seq:04d}] {date} — {title}\n")
+        if fields["Scope"]:
+            entry.append(f"- Scope: {fields['Scope']}\n")
+        if fields["Changes"]:
+            entry.append(f"- Changes: {fields['Changes']}\n")
+        if fields["Problem"]:
+            entry.append(f"- Problem: {fields['Problem']}\n")
+        if fields["Solution"]:
+            entry.append(f"- Solution: {fields['Solution']}\n")
+        if fields["Notes"]:
+            entry.append(f"- Notes: {fields['Notes']}\n")
+        entry.append(f"- Commit: {c['hash'][:7]}\n\n")
+        append_worklog("".join(entry))
 
     # If there is a pending individual worklog file, rename and annotate it
     p = find_worklog_pending()
